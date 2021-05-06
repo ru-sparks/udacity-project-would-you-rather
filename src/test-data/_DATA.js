@@ -106,7 +106,7 @@ let questions = {
     timestamp: 1493579767190,
     optionOne: {
       votes: ['johndoe'],
-      text: 'write JavaScript',
+      text: 'write JavaScript',n
     },
     optionTwo: {
       votes: ['tylermcginnis'],
