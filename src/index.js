@@ -2,13 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 // import App from "./App";
-import Navigation from "./Navigation";
+import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//import { createStore } from "redux";
 import { Provider } from "react-redux";
-//import rootReducer from "./rootReducer";
 import { BrowserRouter as Router } from "react-router-dom";
 import configureStore from "./store/configureStore";
 
@@ -20,7 +18,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <Router>
-        <Navigation />
+        <App />
       </Router>
     </Provider>{" "}
   </React.StrictMode>,

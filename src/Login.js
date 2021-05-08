@@ -64,7 +64,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => { 
   return {
     users: state.items.users,
     authorizedUser: state.authorizedUser
@@ -78,7 +78,6 @@ export const getUser = (usersObject, index) => {
   } else {
     return undefined;
   }
-
-
 }
+
 export default connect(mapStateToProps, {authorizeUser})(Login);
