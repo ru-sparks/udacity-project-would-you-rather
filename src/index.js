@@ -6,15 +6,15 @@ import Navigation from "./Navigation";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { createStore } from "redux";
+//import { createStore } from "redux";
 import { Provider } from "react-redux";
-import rootReducer from "./rootReducer";
+//import rootReducer from "./rootReducer";
 import { BrowserRouter as Router } from "react-router-dom";
+import configureStore from "./store/configureStore";
 
-const store = createStore(
-  rootReducer /* preloadedState, */,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const store = configureStore(); 
+
+
 
 ReactDOM.render(
   <React.StrictMode>

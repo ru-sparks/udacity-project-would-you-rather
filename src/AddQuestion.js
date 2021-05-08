@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import Form from "react-bootstrap/Form";
 
