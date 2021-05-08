@@ -10,10 +10,3 @@ export const authorizeUser = (userId) => {
 }
 
 
-export const removeAuthorization = () => {
-    let rc = {
-        type: REMOVE_AUTHORIZATION,
-        authorizedUser: undefined,
-    }
-    return rc;
-}
