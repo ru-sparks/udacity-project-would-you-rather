@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
-import { authorizeUser } from "./actions/auth";
+import { authorizeUser } from "../actions/auth";
 
 class Login extends Component {
   onSelectionChange = (event) => {
@@ -24,10 +24,8 @@ class Login extends Component {
     let page = <></>;
     let caption = "Loading...";
     const notAuthorized = "Not Authorized";
-    debugger;
     if (this.props.users) {
       caption = "Pick a user...";
-      debugger;
       page = Object.entries(this.props.users).map((element, index) => {
         return (
           <option key={element[1].id} id={element[1].id} value={element[1].id}>
