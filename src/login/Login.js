@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 
-import "./App.css";
+import "../App.css";
 import Form from "react-bootstrap/Form";
 import { connect } from "react-redux";
 import { authorizeUser } from "../actions/auth";
+import { setRedirectedPath } from "../actions/redirect";
+
 
 class Login extends Component {
   onSelectionChange = (event) => {
@@ -12,8 +14,12 @@ class Login extends Component {
     let index = event.target.selectedIndex - 1;
 
     if (index >= 0) {
-//      this.props.authorizeUser(Object.entries(this.props.users)[index][1].id);
         this.props.authorizeUser(getUser(this.props.users, index).id);
+        debugger;
+        if (this.props.redirectedPath) {      
+          this.props.setRedirectedPath("");
+          this.props.history.push(this.props.redirectedPath);
+        }
   
     } else {
       this.props.authorizeUser(null);
@@ -64,7 +70,8 @@ class Login extends Component {
 const mapStateToProps = (state) => { 
   return {
     users: state.items.users,
-    authorizedUser: state.authorizedUser
+    authorizedUser: state.authorizedUser,
+    redirectedPath: state.redirectedPath,
   };
 };
 
@@ -77,4 +84,4 @@ export const getUser = (usersObject, index) => {
   }
 }
 
-export default connect(mapStateToProps, {authorizeUser})(Login);
+export default connect(mapStateToProps, { authorizeUser, setRedirectedPath })(Login);

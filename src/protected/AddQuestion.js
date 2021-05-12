@@ -1,4 +1,4 @@
-import "./App.css";
+import "../App.css";
 import Form from "react-bootstrap/Form";
 
 function AddQuestion() {

@@ -4,11 +4,12 @@ import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavItem } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
-import Login from "./main-menu-components/Login";
-import AddQuestion from "./main-menu-components/AddQuestion";
+import Login from "../login/Login";
+import AddQuestion from "../protected/AddQuestion";
 import { connect } from "react-redux";
-import { itemsFetchData } from "./actions/fetchData";
-import LeaderBoard from "./main-menu-components/LeaderBoard";
+import { itemsFetchData } from "../actions/fetchData";
+import LeaderBoard from "../protected/LeaderBoard";
+import ProtectedRoute from './ProtectedRoute';
 
 class App extends Component {
   componentDidMount() {
@@ -17,7 +18,8 @@ class App extends Component {
 
   render() {
     let userName = getUserName(this.props);
-
+    console.log('App', this.props);
+    console.log('App state', this.state);
     return (
       <div>
         <div>
@@ -39,7 +41,7 @@ class App extends Component {
                 </NavItem>
                 <NavItem eventkey={3} href="/leaderboard">
                   <Nav.Link as={Link} to="/leaderboard">
-                    Leader Board
+                    Leaderboard
                   </Nav.Link>
                 </NavItem>
               </Nav>
@@ -48,8 +50,9 @@ class App extends Component {
         </div>
         <div>
           <Switch>
-            <Route exact path="/addquestion" component={AddQuestion} />
-            <Route exact path="/leaderboard" component={LeaderBoard} />
+            <ProtectedRoute exact path="/addquestion" component={AddQuestion} />
+            <ProtectedRoute exact path="/leaderboard" component={LeaderBoard} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/" component={Login} />
             <Route
               render={() => {
@@ -82,6 +85,7 @@ const mapStateToProps = (state) => {
     hasErrored: state.itemsHasErrored,
     isLoading: state.itemsIsLoading,
     authorizedUser: state.authorizedUser,
+    redirectedPath: state.redirectedPath,
   };
 };
 const mapDispatchToProps = (dispatch) => {
