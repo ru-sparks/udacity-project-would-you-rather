@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Button, NavItem } from "react-bootstrap";
+import { NavItem } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
 import Login from "../login/Login";
 import AddQuestion from "../protected/AddQuestion";
@@ -10,17 +10,11 @@ import { connect } from "react-redux";
 import { itemsFetchData } from "../actions/fetchData";
 import LeaderBoard from "../protected/LeaderBoard";
 import ProtectedRoute from "./ProtectedRoute";
-import { authorizeUser } from "./../actions/auth";
-
 
 class App extends Component {
   componentDidMount() {
     this.props.fetchData("");
   }
-
-  handleLogout = () => {
-    this.props.logout();
-  };
 
   render() {
     let userName = getUserName(this.props);
@@ -29,42 +23,35 @@ class App extends Component {
     return (
       <div>
         <div>
-          <Navbar className="my-0" bg="dark" variant="dark" expand="lg">
-            <Navbar.Brand 
-              as={Link} to="/">?</Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarScroll" />
-            <Navbar.Collapse id="navbarScroll">
-              <Nav className="justify-content-end my-2 my-lg-0" navbarScroll>
+          <Navbar>
+            <Navbar.Brand as={Link} to="/">
+              {"SparkCo"}
+            </Navbar.Brand>
+            <Navbar.Collapse className="w-100">
+              <Nav>
+                <NavItem className="mr-auto" eventkey={1} href="/">
+                  <Nav.Link as={Link} to="/">
+                    Home
+                  </Nav.Link>
+                </NavItem>
                 <NavItem eventkey={2} href="/addquestion">
                   <Nav.Link as={Link} to="/addquestion">
                     Add a Question
                   </Nav.Link>
                 </NavItem>
-
                 <NavItem eventkey={3} href="/leaderboard">
                   <Nav.Link as={Link} to="/leaderboard">
                     Leaderboard
                   </Nav.Link>
                 </NavItem>
-
-                {userName ? (
-                  <>
-                    <Navbar.Text className="">
-                      Signed in as: {userName}
-                    </Navbar.Text>
-                    <Button
-                      variant="outline-primary"
-                      onClick={this.handleLogout}
-                    >
-                      Logout
-                    </Button>
-                  </>
-                ) : (
-                  <></>
-                )}
+              {userName ? (
+                <Navbar.Text className="mr-auto">Signed in as: {userName}</Navbar.Text>
+              ) : (
+                <></>
+              )}
               </Nav>
             </Navbar.Collapse>
-          </Navbar>{" "}
+          </Navbar>
         </div>
         <div>
           <Switch>
@@ -109,7 +96,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchData: (url) => dispatch(itemsFetchData(url)),
-    logout: () => dispatch(authorizeUser("")),
   };
 };
 

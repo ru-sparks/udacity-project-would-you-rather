@@ -6,30 +6,29 @@ import { connect } from "react-redux";
 import { authorizeUser } from "../actions/auth";
 import { setRedirectedPath } from "../actions/redirect";
 
-
 class Login extends Component {
+  oneOff = 0;
   onSelectionChange = (event) => {
-    console.log(event.target.selectedIndex)
+    console.log(event.target.selectedIndex);
 
-    let index = event.target.selectedIndex - 1;
+    let index = event.target.selectedIndex - this.oneOff;
 
     if (index >= 0) {
-        this.props.authorizeUser(getUser(this.props.users, index).id);
-        debugger;
-        if (this.props.redirectedPath) {      
-          this.props.setRedirectedPath("");
-          this.props.history.push(this.props.redirectedPath);
-        }
-  
+      this.props.authorizeUser(getUser(this.props.users, index).id);
+      debugger;
+      if (this.props.redirectedPath) {
+        this.props.setRedirectedPath("");
+        this.props.history.push(this.props.redirectedPath);
+      }
     } else {
       this.props.authorizeUser(null);
     }
-    ;
   };
   render() {
     let page = <></>;
     let caption = "Loading...";
-    const notAuthorized = "Not Authorized";
+    const notAuthorized = "";
+    this.oneOff = 0;
     if (this.props.users) {
       caption = "Pick a user...";
       page = Object.entries(this.props.users).map((element, index) => {
@@ -39,10 +38,14 @@ class Login extends Component {
           </option>
         );
       });
-      page.unshift(
-        <option key={notAuthorized} id={notAuthorized} value={notAuthorized}>
-          {notAuthorized}
-        </option>);
+      if (!this.props.authorizedUser) {
+        this.oneOff = 1;
+        page.unshift(
+          <option key={notAuthorized} id={notAuthorized} value={notAuthorized}>
+            {notAuthorized}
+          </option>
+        );
+      }
     }
 
     return (
@@ -54,7 +57,12 @@ class Login extends Component {
               <Form.Control
                 size="sm"
                 as="select"
-                value={this.props.authorizedUser === undefined ? notAuthorized : this.props.authorizedUser}
+                placeholder="Search"
+                value={
+                  this.props.authorizedUser === undefined
+                    ? notAuthorized
+                    : this.props.authorizedUser
+                }
                 onChange={this.onSelectionChange}
               >
                 {page}
@@ -67,7 +75,7 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = (state) => { 
+const mapStateToProps = (state) => {
   return {
     users: state.items.users,
     authorizedUser: state.authorizedUser,
@@ -82,6 +90,8 @@ export const getUser = (usersObject, index) => {
   } else {
     return undefined;
   }
-}
+};
 
-export default connect(mapStateToProps, { authorizeUser, setRedirectedPath })(Login);
+export default connect(mapStateToProps, { authorizeUser, setRedirectedPath })(
+  Login
+);
