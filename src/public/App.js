@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Button, NavItem } from "react-bootstrap";
+import { Button, NavItem, Tab, Tabs } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
 import Login from "../login/Login";
 import AddQuestion from "../protected/AddQuestion";
@@ -12,8 +12,9 @@ import LeaderBoard from "../protected/LeaderBoard";
 import ProtectedRoute from "./ProtectedRoute";
 import { authorizeUser } from "./../actions/auth";
 
-
 class App extends Component {
+
+
   componentDidMount() {
     this.props.fetchData("");
   }
@@ -23,18 +24,21 @@ class App extends Component {
   };
 
   render() {
+    const { redirect } = this.props.match ? this.props.match.params : "";
     let userName = getUserName(this.props);
-    console.log("App", this.props);
-    console.log("App state", this.state);
+
+    if (redirect)
+      debugger;
     return (
       <div>
         <div>
-          <Navbar className="my-0" bg="dark" variant="dark" expand="lg">
-            <Navbar.Brand 
-              as={Link} to="/">?</Navbar.Brand>
-            <Navbar.Toggle aria-controls="navbarScroll" />
-            <Navbar.Collapse id="navbarScroll">
-              <Nav className="justify-content-end my-2 my-lg-0" navbarScroll>
+          <Navbar className="my-0" bg="dark" variant="dark" expand="lg" transition="false">
+            <Navbar.Brand as={Link} to="/">
+              ?
+            </Navbar.Brand>
+            {/* <Navbar.Toggle aria-controls="navbarScroll" transition="false" /> */}
+            {/* <Navbar.Collapse id="navbarScroll"> */}
+              <Nav className="justify-content-end my-2 my-lg-0">
                 <NavItem eventkey={2} href="/addquestion">
                   <Nav.Link as={Link} to="/addquestion">
                     Add a Question
@@ -63,14 +67,15 @@ class App extends Component {
                   <></>
                 )}
               </Nav>
-            </Navbar.Collapse>
+            {/* </Navbar.Collapse> */}
           </Navbar>{" "}
         </div>
         <div>
           <Switch>
             <ProtectedRoute exact path="/addquestion" component={AddQuestion} />
             <ProtectedRoute exact path="/leaderboard" component={LeaderBoard} />
-            <Route exact path="/login" component={Login} />
+            <Route path="/login/:redirect" component={Login} />
+            <Route path="/login" component={Login} />
             <Route exact path="/" component={Login} />
             <Route
               render={() => {
@@ -79,6 +84,14 @@ class App extends Component {
             />
           </Switch>
         </div>
+        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
+          <Tab eventKey="profile" title="Profile">
+            Hi
+          </Tab>
+          <Tab eventKey="contact" title="Contact" >
+            Bye
+          </Tab>
+        </Tabs>
       </div>
     );
   }

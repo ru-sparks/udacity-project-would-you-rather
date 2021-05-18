@@ -1,9 +1,12 @@
 import React from "react";
-import { Card, CardDeck, CardGroup, ListGroup, ListGroupItem } from "react-bootstrap";
+import {
+  Card,
+  CardGroup,
+} from "react-bootstrap";
 import { connect } from "react-redux";
 import "../App.css";
 import cloneDeep from "lodash/cloneDeep";
-import { getUserName } from '../public/App';
+import { getUserName } from "../public/App";
 
 const getCount = (element) => {
   return (
@@ -12,7 +15,6 @@ const getCount = (element) => {
   );
 };
 const LeaderBoard = (props) => {
-  
   let page = <></>;
 
   if (props.items.users) {
@@ -32,23 +34,46 @@ const LeaderBoard = (props) => {
       let asked = element[1].questions.length;
       let userName = getUserName(props);
       return (
-        <Card style={{ width: '180rem' }}
-          key={element[1].id}
-        >
-          <Card.Img
-            variant="top"
-            src={element[1].avatarURL}
-            alt="user"
-          />
+        <Card style={{ width: "180rem" }} key={element[1].id}>
+          <Card.Img variant="top" src={element[1].avatarURL} alt="user" />
           <Card.Body>
             <Card.Title>{element[1].name}</Card.Title>
-            <Card.Text>
-              <ul>
-                <li>Answered: {answers}</li>
-                <li>Asked: {asked}</li>
-                {element[1].name === userName ? <li>Current User</li> : <></>}
-              </ul>
+            <Card.Text
+              style={{
+                textIndent: 50,
+                marginBottom: 0,
+              }}
+            >
+              Answered: {answers}
             </Card.Text>
+            <Card.Text
+              style={{
+                textIndent: 50,
+                marginBottom: 0,
+              }}
+            >
+              Asked: {asked}
+            </Card.Text>
+            <Card.Text
+              style={{
+                textIndent: 50,
+                marginBottom: 0,
+              }}
+            >
+              Score: {answers+asked}
+            </Card.Text>
+            {element[1].name === userName ? (
+              <Card.Text
+                style={{
+                  textIndent: 50,
+                  marginBottom: 0,
+                }}
+              >
+                Current User
+              </Card.Text>
+            ) : (
+              <></>
+            )}
           </Card.Body>
         </Card>
       );

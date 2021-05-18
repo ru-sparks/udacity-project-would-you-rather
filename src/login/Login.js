@@ -9,13 +9,11 @@ import { setRedirectedPath } from "../actions/redirect";
 class Login extends Component {
   oneOff = 0;
   onSelectionChange = (event) => {
-    console.log(event.target.selectedIndex);
 
     let index = event.target.selectedIndex - this.oneOff;
 
     if (index >= 0) {
       this.props.authorizeUser(getUser(this.props.users, index).id);
-      debugger;
       if (this.props.redirectedPath) {
         this.props.setRedirectedPath("");
         this.props.history.push(this.props.redirectedPath);
@@ -27,10 +25,10 @@ class Login extends Component {
   render() {
     let page = <></>;
     let caption = "Loading...";
-    const notAuthorized = "";
+    const notAuthorized = "Select a user";
     this.oneOff = 0;
     if (this.props.users) {
-      caption = "Pick a user...";
+      caption = "";
       page = Object.entries(this.props.users).map((element, index) => {
         return (
           <option key={element[1].id} id={element[1].id} value={element[1].id}>
@@ -53,7 +51,7 @@ class Login extends Component {
         <header className="App-header">
           <Form>
             <Form.Group controlId="loginForm.Select">
-              <Form.Label>{caption}</Form.Label>
+              {caption ? <Form.Label>{caption}</Form.Label> : <></>}
               <Form.Control
                 size="sm"
                 as="select"

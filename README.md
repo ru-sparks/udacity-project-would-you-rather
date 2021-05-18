@@ -16,3 +16,8 @@ https://medium.com/@stowball/a-dummys-guide-to-redux-and-thunk-in-react-d8904a70
 
 Route Protection
 https://ui.dev/react-router-v5-protected-routes-authentication/
+
+
+I had used React Bootstrap's collapsing navbar.  However its use triggered a React warning.  This seems to be a known and (old) issue:
+Warning: findDOMNode is deprecated in StrictMode
+

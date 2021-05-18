@@ -7,5 +7,3 @@ export const setRedirectedPath = (redirectedPath) => {
     }
     return rc;
 }
-
-
