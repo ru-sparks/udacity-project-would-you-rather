@@ -18,7 +18,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
             return rest.setRedirectedPath(rest.path);
           }, 5);
 
-          let path = `/login`;
+          let path = `/`;
           return (
             <Redirect
               to={{

@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardGroup,
-} from "react-bootstrap";
+import { Card, CardGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import "../App.css";
 import cloneDeep from "lodash/cloneDeep";
@@ -14,10 +11,32 @@ const getCount = (element) => {
     (element[1].questions ? element[1].questions.length : 0)
   );
 };
-const LeaderBoard = (props) => {
+const UserQuestionList = (props) => {
   let page = <></>;
 
   if (props.items.users) {
+    let currentUser = props.items.users[props.authorizedUser];
+    let userAnswers = currentUser.answers;
+    let userAnswersArray = Object.entries(userAnswers);
+
+    let questions = [];
+    if (props.answered) {
+      questions = userAnswersArray.map((answer) => {
+        return props.items.questions[answer[0]];
+      });
+    } else {
+      let allQuestions = Object.entries(props.items.questions);
+
+      for (let i = 0; i < allQuestions.length; i++) {
+        if (userAnswersArray.find(ua => {
+          return ua[0] === allQuestions[i][0];
+        }) === undefined) {
+          questions.push( props.items.questions[allQuestions[i][0]]);
+        }
+      }
+    }
+    console.log('props.answered', props.answered);
+    console.log(questions);
     let users = cloneDeep(props.items.users);
     let userArray = Object.entries(users);
     userArray.sort((e1, e2) => {
@@ -60,8 +79,20 @@ const LeaderBoard = (props) => {
                 marginBottom: 0,
               }}
             >
-              Score: {answers+asked}
+              Score: {answers + asked}
             </Card.Text>
+            {element[1].name === userName ? (
+              <Card.Text
+                style={{
+                  textIndent: 50,
+                  marginBottom: 0,
+                }}
+              >
+                Current User
+              </Card.Text>
+            ) : (
+              <></>
+            )}
           </Card.Body>
         </Card>
       );
@@ -78,4 +109,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(LeaderBoard);
+export default connect(mapStateToProps)(UserQuestionList);

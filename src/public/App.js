@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
-import { Button, NavItem, Tab, Tabs } from "react-bootstrap";
+import { Button, NavItem } from "react-bootstrap";
 import { Link, Route, Switch } from "react-router-dom";
 import Login from "../login/Login";
 import AddQuestion from "../protected/AddQuestion";
@@ -11,10 +11,9 @@ import { itemsFetchData } from "../actions/fetchData";
 import LeaderBoard from "../protected/LeaderBoard";
 import ProtectedRoute from "./ProtectedRoute";
 import { authorizeUser } from "./../actions/auth";
+import PollResults from "../protected/PollResults";
 
 class App extends Component {
-
-
   componentDidMount() {
     this.props.fetchData("");
   }
@@ -27,46 +26,48 @@ class App extends Component {
     const { redirect } = this.props.match ? this.props.match.params : "";
     let userName = getUserName(this.props);
 
-    if (redirect)
-      debugger;
+    if (redirect) debugger;
     return (
       <div>
         <div>
-          <Navbar className="my-0" bg="dark" variant="dark" expand="lg" transition="false">
+          <Navbar
+            className="my-0"
+            bg="dark"
+            variant="dark"
+            expand="lg"
+            transition="false"
+          >
             <Navbar.Brand as={Link} to="/">
               ?
             </Navbar.Brand>
             {/* <Navbar.Toggle aria-controls="navbarScroll" transition="false" /> */}
             {/* <Navbar.Collapse id="navbarScroll"> */}
-              <Nav className="justify-content-end my-2 my-lg-0">
-                <NavItem eventkey={2} href="/addquestion">
-                  <Nav.Link as={Link} to="/addquestion">
-                    Add a Question
-                  </Nav.Link>
-                </NavItem>
+            <Nav className="justify-content-end my-2 my-lg-0">
+              <NavItem eventkey={2} href="/addquestion">
+                <Nav.Link as={Link} to="/addquestion">
+                  Add a Question
+                </Nav.Link>
+              </NavItem>
 
-                <NavItem eventkey={3} href="/leaderboard">
-                  <Nav.Link as={Link} to="/leaderboard">
-                    Leaderboard
-                  </Nav.Link>
-                </NavItem>
+              <NavItem eventkey={3} href="/leaderboard">
+                <Nav.Link as={Link} to="/leaderboard">
+                  Leaderboard
+                </Nav.Link>
+              </NavItem>
 
-                {userName ? (
-                  <>
-                    <Navbar.Text className="">
-                      Signed in as: {userName}
-                    </Navbar.Text>
-                    <Button
-                      variant="outline-primary"
-                      onClick={this.handleLogout}
-                    >
-                      Logout
-                    </Button>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </Nav>
+              {userName ? (
+                <>
+                  <Navbar.Text className="">
+                    Signed in as: {userName}
+                  </Navbar.Text>
+                  <Button variant="outline-primary" onClick={this.handleLogout}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <></>
+              )}
+            </Nav>
             {/* </Navbar.Collapse> */}
           </Navbar>{" "}
         </div>
@@ -74,9 +75,12 @@ class App extends Component {
           <Switch>
             <ProtectedRoute exact path="/addquestion" component={AddQuestion} />
             <ProtectedRoute exact path="/leaderboard" component={LeaderBoard} />
-            <Route path="/login/:redirect" component={Login} />
-            <Route path="/login" component={Login} />
-            <Route exact path="/" component={Login} />
+            {userName ? (
+              <Route exact path="/" component={PollResults} />
+            ) : (
+              <Route exact path="/" component={Login} />
+            )}
+
             <Route
               render={() => {
                 return <h3>404 Not found</h3>;
@@ -84,14 +88,6 @@ class App extends Component {
             />
           </Switch>
         </div>
-        <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
-          <Tab eventKey="profile" title="Profile">
-            Hi
-          </Tab>
-          <Tab eventKey="contact" title="Contact" >
-            Bye
-          </Tab>
-        </Tabs>
       </div>
     );
   }
