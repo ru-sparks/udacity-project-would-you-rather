@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardGroup } from "react-bootstrap";
 import { connect } from "react-redux";
-import "../App.css";
+import "./UserQuestionList.css";
 import cloneDeep from "lodash/cloneDeep";
 import { getUserName } from "../public/App";
 
@@ -28,14 +28,16 @@ const UserQuestionList = (props) => {
       let allQuestions = Object.entries(props.items.questions);
 
       for (let i = 0; i < allQuestions.length; i++) {
-        if (userAnswersArray.find(ua => {
-          return ua[0] === allQuestions[i][0];
-        }) === undefined) {
-          questions.push( props.items.questions[allQuestions[i][0]]);
+        if (
+          userAnswersArray.find((ua) => {
+            return ua[0] === allQuestions[i][0];
+          }) === undefined
+        ) {
+          questions.push(props.items.questions[allQuestions[i][0]]);
         }
       }
     }
-    console.log('props.answered', props.answered);
+    console.log("props.answered", props.answered);
     console.log(questions);
     let users = cloneDeep(props.items.users);
     let userArray = Object.entries(users);
@@ -46,59 +48,27 @@ const UserQuestionList = (props) => {
       return -(count1 < count2 ? -1 : count1 > count2 ? 1 : 0);
     });
 
-    page = userArray.map((element, index) => {
-      let answers = element[1].answers
-        ? Object.entries(element[1].answers).length
-        : 0;
-      let asked = element[1].questions.length;
-      let userName = getUserName(props);
+    page = questions.map((element, index) => {
+      let questionAuthor = props.items.users[element.author];
       return (
-        <Card style={{ width: "180rem" }} key={element[1].id}>
-          <Card.Img variant="top" src={element[1].avatarURL} alt="user" />
+        <Card style={{ width: "180rem" }} key={index}>
+          <Card.Img variant="top" src={questionAuthor.avatarURL} alt="user" />
           <Card.Body>
-            <Card.Title>{element[1].name}</Card.Title>
-            <Card.Text
-              style={{
-                textIndent: 50,
-                marginBottom: 0,
-              }}
+            <Card.Title>{questionAuthor.name + " Asks"}</Card.Title>
+            <Card.Text className="truncate"
             >
-              Answered: {answers}
+              {element.optionOne.text}
             </Card.Text>
-            <Card.Text
-              style={{
-                textIndent: 50,
-                marginBottom: 0,
-              }}
+            <Card.Text  className="truncate"
             >
-              Asked: {asked}
+              {element.optionTwo.text}
             </Card.Text>
-            <Card.Text
-              style={{
-                textIndent: 50,
-                marginBottom: 0,
-              }}
-            >
-              Score: {answers + asked}
-            </Card.Text>
-            {element[1].name === userName ? (
-              <Card.Text
-                style={{
-                  textIndent: 50,
-                  marginBottom: 0,
-                }}
-              >
-                Current User
-              </Card.Text>
-            ) : (
-              <></>
-            )}
           </Card.Body>
         </Card>
       );
     });
-  }
 
+  }
   return <CardGroup>{page}</CardGroup>;
 };
 
