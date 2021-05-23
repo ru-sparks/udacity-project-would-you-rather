@@ -12,6 +12,8 @@ import LeaderBoard from "../protected/LeaderBoard";
 import ProtectedRoute from "./ProtectedRoute";
 import { authorizeUser } from "./../actions/auth";
 import PollResults from "../protected/PollResults";
+import QuestionResult from "./../protected/QuestionResult";
+import QuestionAsk from "../protected/QuestionAsk";
 
 class App extends Component {
   componentDidMount() {
@@ -26,7 +28,6 @@ class App extends Component {
     const { redirect } = this.props.match ? this.props.match.params : "";
     let userName = getUserName(this.props);
 
-    if (redirect) debugger;
     return (
       <div>
         <div>
@@ -75,10 +76,27 @@ class App extends Component {
           <Switch>
             <ProtectedRoute exact path="/addquestion" component={AddQuestion} />
             <ProtectedRoute exact path="/leaderboard" component={LeaderBoard} />
+            <ProtectedRoute
+              exact
+              path="/questionresult/:questionId"
+              component={QuestionResult}
+            />
+            <ProtectedRoute
+              exact
+              path="/questionask/:questionId"
+              component={QuestionAsk}
+            />
+
             {userName ? (
               <Route exact path="/" component={PollResults} />
             ) : (
-              <Route exact path="/" component={Login} />
+              <Route
+                exact
+                path="/"
+                render={(props) => (
+                  <Login {...props} validRedirectPaths={["/addquestion", "/leaderboard"]} />
+                )}
+              />
             )}
 
             <Route

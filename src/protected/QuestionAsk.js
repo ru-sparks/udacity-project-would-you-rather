@@ -2,14 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { connect } from 'react-redux';
 
-const QuestionResult = (props) => {
+const QuestionAsk = (props) => {
     const { questionId } = useParams();
 
     let question = props.items.questions[questionId];
     if (question) {
         return (
             <div>
-                <h1>Question Result</h1>
+                <h1>Question Ask</h1>
                 <p>{question.optionOne.text}</p>
                 <p>{question.optionTwo.text}</p>
             </div>
@@ -25,5 +25,5 @@ const mapStateToProps = (state) => {
       items: state.items,
     };
   };
-export default connect(mapStateToProps)(QuestionResult);
+export default connect(mapStateToProps)(QuestionAsk);
  

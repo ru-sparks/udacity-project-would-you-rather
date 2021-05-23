@@ -18,6 +18,9 @@ Route Protection
 https://ui.dev/react-router-v5-protected-routes-authentication/
 
 
+Truncate Questions
+https://css-tricks.com/snippets/css/truncate-string-with-ellipsis/
+
 I had used React Bootstrap's collapsing navbar.  However its use triggered a React warning.  This seems to be a known and (old) issue:
 Warning: findDOMNode is deprecated in StrictMode
 

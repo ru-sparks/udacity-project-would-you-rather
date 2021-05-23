@@ -7,10 +7,10 @@ class PollResults extends Component {
     return (
       <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example">
         <Tab eventKey="profile" title="Unanswered Questions">
-          <UserQuestionList answered={false}></UserQuestionList>
+          <UserQuestionList answered={false}  history={this.props.history}></UserQuestionList>
         </Tab>
         <Tab eventKey="contact" title="Answered Questions">
-          <UserQuestionList answered={true}></UserQuestionList>
+          <UserQuestionList answered={true} history={this.props.history}></UserQuestionList>
         </Tab>
       </Tabs>
     );

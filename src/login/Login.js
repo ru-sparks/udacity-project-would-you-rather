@@ -9,14 +9,19 @@ import { setRedirectedPath } from "../actions/redirect";
 class Login extends Component {
   oneOff = 0;
   onSelectionChange = (event) => {
-
     let index = event.target.selectedIndex - this.oneOff;
-
     if (index >= 0) {
       this.props.authorizeUser(getUser(this.props.users, index).id);
       if (this.props.redirectedPath) {
         this.props.setRedirectedPath("");
-        this.props.history.push(this.props.redirectedPath);
+
+        if (
+          this.props.validRedirectPaths.find((path) => {
+            return path === this.props.redirectedPath;
+          })
+        ) {
+          this.props.history.push(this.props.redirectedPath);
+        }
       }
     } else {
       this.props.authorizeUser(null);
