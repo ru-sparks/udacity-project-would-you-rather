@@ -6,7 +6,7 @@ import {
 
 import { _getQuestions, _getUsers } from "./../test-data/_DATA";
 
-export function itemsFetchData(url) {
+export function itemsFetchData(url, callBack) {
   return (dispatch) => {
     dispatch(itemsIsLoading(true));
     _getUsers()
@@ -19,6 +19,9 @@ export function itemsFetchData(url) {
               questions,
             };
             dispatch(itemsFetchDataSuccess(items));
+            if (callBack) {
+              callBack();
+            }
           })
           .catch(() => dispatch(itemsHasErrored(true)));
       })

@@ -5,13 +5,17 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
+import { saveQuestionAnswer } from "../actions/saveQuestonAnswer";
 
 class QuestionAsk extends Component {
   state = {
     selected: "0",
   };
   formSubmit = (event) => {
-    alert(this.state.selected);
+    let { questionId } = this.props.match.params;
+    let authorizedUser  = this.props.authorizedUser;
+    let answer = this.state.selected === "1" ? "optionOne" : "optionTwo";
+    this.props.saveQuestionAnswer(authorizedUser, questionId, answer, this.props.history);
     event.preventDefault();
   };
   onValueChange = (event) => {
@@ -41,7 +45,7 @@ class QuestionAsk extends Component {
               value="2"
               checked={this.state.selected === "2"}
               onChange={this.onValueChange}
-              label={question.optionOne.text}
+              label={question.optionTwo.text}
             />
             <Button variant="outline-secondary" type="submit">
               Submit
@@ -60,4 +64,14 @@ const mapStateToProps = (state) => {
     items: state.items,
   };
 };
-export default connect(mapStateToProps)(QuestionAsk);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    saveQuestionAnswer: (authedUser, qid, answer, history) => {
+      dispatch(saveQuestionAnswer(authedUser, qid, answer, history));
+    },
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionAsk);
