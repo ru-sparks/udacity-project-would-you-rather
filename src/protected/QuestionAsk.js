@@ -1,21 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../App.css";
-import {
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { saveQuestionAnswer } from "../actions/saveQuestonAnswer";
 
 class QuestionAsk extends Component {
   state = {
     selected: "0",
+    disableSubmit: false,
   };
   formSubmit = (event) => {
     let { questionId } = this.props.match.params;
-    let authorizedUser  = this.props.authorizedUser;
+    let authorizedUser = this.props.authorizedUser;
     let answer = this.state.selected === "1" ? "optionOne" : "optionTwo";
-    this.props.saveQuestionAnswer(authorizedUser, questionId, answer, this.props.history);
+    this.props.saveQuestionAnswer(
+      authorizedUser,
+      questionId,
+      answer,
+      this.props.history
+    );
+    this.setState((state) => {
+      return { ...state, disableSubmit: true };
+    });
     event.preventDefault();
   };
   onValueChange = (event) => {
@@ -24,14 +30,20 @@ class QuestionAsk extends Component {
     });
   };
   render() {
+    debugger;
     let { questionId } = this.props.match.params;
-
     let question = this.props.items.questions[questionId];
 
     if (question) {
+      let heading = "Would you rather?";
+      let pleaseWait = <h6>Choose wisely grasshopper</h6>;
+      if (this.state.disableSubmit) {
+        pleaseWait = <h6>Please wait while complex results are tallied...</h6>;
+      }
+
       return (
         <>
-          <h3>Would you Rather?</h3>
+          <h3>{heading}</h3>
           <Form onSubmit={this.formSubmit}>
             <Form.Check
               type="radio"
@@ -39,6 +51,7 @@ class QuestionAsk extends Component {
               checked={this.state.selected === "1"}
               onChange={this.onValueChange}
               label={question.optionOne.text}
+              disabled={this.state.disableSubmit}
             />
             <Form.Check
               type="radio"
@@ -46,10 +59,17 @@ class QuestionAsk extends Component {
               checked={this.state.selected === "2"}
               onChange={this.onValueChange}
               label={question.optionTwo.text}
+              disabled={this.state.disableSubmit}
             />
-            <Button variant="outline-secondary" type="submit">
+
+            <Button
+              variant="outline-secondary"
+              type="submit"
+              disabled={this.state.disableSubmit}
+            >
               Submit
             </Button>
+            {pleaseWait}
           </Form>
         </>
       );
@@ -72,6 +92,5 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionAsk);

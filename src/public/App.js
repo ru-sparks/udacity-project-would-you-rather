@@ -39,7 +39,7 @@ class App extends Component {
             transition="false"
           >
             <Navbar.Brand as={Link} to="/">
-              ?
+              Would you rather?
             </Navbar.Brand>
             {/* <Navbar.Toggle aria-controls="navbarScroll" transition="false" /> */}
             {/* <Navbar.Collapse id="navbarScroll"> */}
