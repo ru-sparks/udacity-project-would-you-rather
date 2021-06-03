@@ -6,7 +6,6 @@ import {
 import { connect } from "react-redux";
 import "../App.css";
 import cloneDeep from "lodash/cloneDeep";
-import { getUserName } from "../public/App";
 
 const getCount = (element) => {
   return (
@@ -32,7 +31,6 @@ const LeaderBoard = (props) => {
         ? Object.entries(element[1].answers).length
         : 0;
       let asked = element[1].questions.length;
-      let userName = getUserName(props);
       return (
         <Card style={{ width: "180rem" }} key={element[1].id}>
           <Card.Img variant="top" src={element[1].avatarURL} alt="user" />

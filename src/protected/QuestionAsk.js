@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../App.css";
 import { Form, Button } from "react-bootstrap";
-import { saveQuestionAnswer } from "../actions/saveQuestonAnswer";
+import { saveQuestionAnswer } from "../api/saveQuestonAnswer";
 
 class QuestionAsk extends Component {
   state = {
@@ -30,7 +30,6 @@ class QuestionAsk extends Component {
     });
   };
   render() {
-    debugger;
     let { questionId } = this.props.match.params;
     let question = this.props.items.questions[questionId];
 
@@ -42,36 +41,38 @@ class QuestionAsk extends Component {
       }
 
       return (
-        <>
-          <h3>{heading}</h3>
-          <Form onSubmit={this.formSubmit}>
-            <Form.Check
-              type="radio"
-              value="1"
-              checked={this.state.selected === "1"}
-              onChange={this.onValueChange}
-              label={question.optionOne.text}
-              disabled={this.state.disableSubmit}
-            />
-            <Form.Check
-              type="radio"
-              value="2"
-              checked={this.state.selected === "2"}
-              onChange={this.onValueChange}
-              label={question.optionTwo.text}
-              disabled={this.state.disableSubmit}
-            />
+        <div className="App">
+          <header className="App-header">
+            <h3>{heading}</h3>
+            <Form onSubmit={this.formSubmit}>
+              <Form.Check
+                type="radio"
+                value="1"
+                checked={this.state.selected === "1"}
+                onChange={this.onValueChange}
+                label={question.optionOne.text}
+                disabled={this.state.disableSubmit}
+              />
+              <Form.Check
+                type="radio"
+                value="2"
+                checked={this.state.selected === "2"}
+                onChange={this.onValueChange}
+                label={question.optionTwo.text}
+                disabled={this.state.disableSubmit}
+              />
 
-            <Button
-              variant="outline-secondary"
-              type="submit"
-              disabled={this.state.disableSubmit}
-            >
-              Submit
-            </Button>
-            {pleaseWait}
-          </Form>
-        </>
+              <Button
+                variant="outline-secondary"
+                type="submit"
+                disabled={this.state.disableSubmit}
+              >
+                Submit
+              </Button>
+              {pleaseWait}
+            </Form>
+          </header>
+        </div>
       );
     } else {
       return <div>404 Not Found</div>;

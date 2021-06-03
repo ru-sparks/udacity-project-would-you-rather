@@ -2,9 +2,9 @@ import {
   itemsIsLoading,
   itemsFetchDataSuccess,
   itemsHasErrored,
-} from "./items";
+} from "./../actions/items";
 
-import { _getQuestions, _getUsers } from "./../test-data/_DATA";
+import { _getQuestions, _getUsers } from "../test-data/_DATA";
 
 export function itemsFetchData(url, callBack) {
   return (dispatch) => {

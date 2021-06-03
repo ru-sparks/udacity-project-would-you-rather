@@ -7,7 +7,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import Login from "../login/Login";
 import AddQuestion from "../protected/AddQuestion";
 import { connect } from "react-redux";
-import { itemsFetchData } from "../actions/fetchData";
+import { itemsFetchData } from "../api/fetchData";
 import LeaderBoard from "../protected/LeaderBoard";
 import ProtectedRoute from "./ProtectedRoute";
 import { authorizeUser } from "./../actions/auth";
@@ -25,7 +25,6 @@ class App extends Component {
   };
 
   render() {
-    const { redirect } = this.props.match ? this.props.match.params : "";
     let userName = getUserName(this.props);
 
     return (

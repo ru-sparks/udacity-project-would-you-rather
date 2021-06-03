@@ -3,7 +3,6 @@ import { Button, Card, CardGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import "./UserQuestionList.css";
 import cloneDeep from "lodash/cloneDeep";
-import { getUserName } from "../public/App";
 
 const getCount = (element) => {
   return (
